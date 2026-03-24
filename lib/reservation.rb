@@ -12,23 +12,31 @@ class Reservation
     @events = []
     @confirmation_number = generate_confirmation_number
   end
-def update_status(status, location, timestamp, notes = nil)
-  event = ReservationEvent.new(status, location, timestamp, notes)
-  @events << event
 
-  @notifiers.each do |notifier|
-    notifier.notify(self, event)
+  def update_status(status, location, timestamp, notes = nil)
+    event = ReservationEvent.new(status, location, timestamp, notes)
+    @events << event
+
+    @notifiers.each do |notifier|
+      notifier.notify(self, event)
+    end
+
+    event
   end
-end
 
-def current_status
-  return "not_yet_confirmed" if @events.empty?
-  @events.last.status
-end
+  def current_status
+    return "not_yet_confirmed" if @events.empty?
+    @events.last.status
+  end
 
-def event_history
-  @events
-end
+  def event_history
+    @events
+  end
+
+  def total_cost
+    @room.total_cost
+  end
+
   private
 
   def generate_confirmation_number
