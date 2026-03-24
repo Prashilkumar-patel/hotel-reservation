@@ -1,0 +1,14 @@
+Single Responsibility Principle (SRP)
+Each class in the system has a single responsibility. Room subclasses are responsible only for pricing logic, Reservation manages the booking lifecycle, and notifier classes handle communication. For example, TextNotifier only handles SMS messaging. However, Reservation slightly violates SRP because it manages both event tracking and notification coordination.
+
+Open/Closed Principle (OCP)
+The system is open for extension but closed for modification. New room types or notifier types can be added without modifying existing code. For example, a new notifier class can be created that implements the notify method without changing the Reservation class.
+
+Liskov Substitution Principle (LSP)
+All Room subclasses can replace the base Room class without breaking functionality. Each subclass correctly implements total_cost, ensuring consistent behavior when used polymorphically.
+
+Interface Segregation Principle (ISP)
+The Notifier interface is minimal and only requires a notify method. Classes are not forced to implement unnecessary methods, making the system flexible and easy to extend.
+
+Dependency Inversion Principle (DIP)
+The Reservation class depends on the abstraction of a notifier rather than concrete implementations. Notifiers are injected via the constructor, allowing the system to remain flexible and loosely coupled.
